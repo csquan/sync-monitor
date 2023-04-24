@@ -28,7 +28,7 @@ func (a *TRONMonitorService) Run() (err error) {
 		if err != nil {
 			logrus.Error(err)
 		}
-		time.Sleep(time.Duration(a.config.MonitorTime.ETH) * time.Second)
+		time.Sleep(time.Duration(a.config.MonitorTime.TRON) * time.Second)
 		afterHeight, err := a.db.GetTRONHeight("BTC")
 		if err != nil {
 			logrus.Error(err)

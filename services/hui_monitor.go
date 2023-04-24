@@ -28,7 +28,7 @@ func (a *HUIMonitorService) Run() (err error) {
 		if err != nil {
 			logrus.Error(err)
 		}
-		time.Sleep(time.Duration(a.config.MonitorTime.ETH) * time.Second)
+		time.Sleep(time.Duration(a.config.MonitorTime.HUI) * time.Second)
 		afterHeight, err := a.db.GetHUIHeight("erc20_tx")
 		if err != nil {
 			logrus.Error(err)

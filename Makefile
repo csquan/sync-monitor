@@ -2,12 +2,12 @@ all: build
 
 
 version := "1.0.0"
-dockerName := "reg.huiwang.io/fat/coin-manage"
+dockerName := "reg.huiwang.io/fat/sync-monitor"
 
 CURRENT_DIR=$(pwd)
 
-PROJ = coin-manage
-MODULE = "coin-manage"
+PROJ = sync-monitor
+MODULE = "sync-monitor"
 
 PKG = `go list ./... | grep -v /vendor/`
 
@@ -43,7 +43,7 @@ test: style cilint
 	go test -cover ./...
 
 server: clean 
-	${CROSS_COMPILE} go build -o bin/linux-amd64-coin-manage ${PKG_TAG} main.go
+	${CROSS_COMPILE} go build -o bin/linux-amd64-sync-monitor ${PKG_TAG} main.go
 
 
 .PHONY: build clean client

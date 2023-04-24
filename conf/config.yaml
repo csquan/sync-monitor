@@ -1,11 +1,11 @@
 db:
   name: root
-  password: csquan253905
-  ip: 127.0.0.1
+  password: fat-chain-root-password
+  ip: 54.254.77.93
   port: 3306
-  btc_database: btc_block_test
-  eth_database: block_eth_test
-  bsc_database: block_data_test
+  btc_database: btc_block_data
+  eth_database: eth_block_data
+  bsc_database: bsc_block_data
   hui_database: block_data_test
   tron_database: TronBlock
 
@@ -22,7 +22,7 @@ log:
     enable: true
     level: 5
   file:
-    enable: true
+    enable: false
     path: "./log/app.log"
     level: 4
   kafka:
