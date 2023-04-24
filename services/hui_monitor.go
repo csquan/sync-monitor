@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
+	"github.com/ethereum/sync-monitor/util"
 	"github.com/sirupsen/logrus"
 	"time"
 )
@@ -34,7 +35,7 @@ func (a *HUIMonitorService) Run() (err error) {
 			logrus.Error(err)
 		}
 		if height == afterHeight {
-			logrus.Error("hui 高度在配置的期限内没有变化")
+			util.TgAlert("hui 高度在配置的期限内没有变化")
 		} else {
 			//logrus.Info("hui 高度在配置的期限内正常变化")
 		}

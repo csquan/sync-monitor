@@ -1,6 +1,8 @@
 package util
 
 import (
+	"github.com/sirupsen/logrus"
+	tgbot "github.com/suiguo/hwlib/telegram_bot"
 	"math/big"
 )
 
@@ -30,4 +32,19 @@ type HistoryInfo struct {
 type BlockRange struct {
 	BeginBlock *big.Int
 	EndBlock   *big.Int
+}
+
+func TgAlert(message string) {
+	var (
+		err error
+	)
+
+	bot, err := tgbot.NewBot("5904746042:AAGjBMN_ahQ0uavSCakrEFUN7RV2Q8oDY4I")
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	err = bot.SendMsg(-1001731474163, message)
+	if err != nil {
+		logrus.Fatal(err)
+	}
 }
