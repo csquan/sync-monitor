@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"strings"
 
-	"github.com/ethereum/api-in/config"
+	"github.com/ethereum/sync-monitor/config"
 
 	"github.com/sirupsen/logrus"
 )

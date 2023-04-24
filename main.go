@@ -2,13 +2,14 @@ package main
 
 import (
 	"flag"
-	"fmt"
-	"github.com/ethereum/api-in/api"
-	"github.com/ethereum/api-in/config"
-	"github.com/ethereum/api-in/db"
-	"github.com/ethereum/api-in/log"
+	"github.com/ethereum/sync-monitor/config"
+	"github.com/ethereum/sync-monitor/db"
+	"github.com/ethereum/sync-monitor/log"
+	"github.com/ethereum/sync-monitor/services"
 	"github.com/sirupsen/logrus"
 	"os"
+	"os/signal"
+	"syscall"
 )
 
 const CONTRACTLEN = 42
@@ -36,22 +37,39 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	dbConnection, err := db.NewMysql(&config.Conf)
+	btc_dbConnection, err := db.NewBTCMysql(&config.Conf)
 	if err != nil {
 		logrus.Fatalf("connect to dbConnection error:%v", err)
 	}
 
-	apiService := api.NewApiService(dbConnection, &config.Conf)
-	go apiService.Run()
+	bsc_dbConnection, err := db.NewBSCMysql(&config.Conf)
+	if err != nil {
+		logrus.Fatalf("connect to dbConnection error:%v", err)
+	}
+
+	eth_dbConnection, err := db.NewETHMysql(&config.Conf)
+	if err != nil {
+		logrus.Fatalf("connect to dbConnection error:%v", err)
+	}
+
+	hui_dbConnection, err := db.NewHUIMysql(&config.Conf)
+	if err != nil {
+		logrus.Fatalf("connect to dbConnection error:%v", err)
+	}
+
+	tron_dbConnection, err := db.NewTRONMysql(&config.Conf)
+	if err != nil {
+		logrus.Fatalf("connect to dbConnection error:%v", err)
+	}
 
 	//listen kill signal
-	closeCh := make(chan os.Signal, 1)
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGHUP)
 
-	for {
-		select {
-		case <-closeCh:
-			fmt.Printf("receive os close sigal")
-			return
-		}
+	//setup scheduler
+	scheduler, err := services.NewServiceScheduler(&config.Conf, btc_dbConnection, bsc_dbConnection, eth_dbConnection, hui_dbConnection, tron_dbConnection, sigCh)
+	if err != nil {
+		return
 	}
+	scheduler.Start()
 }

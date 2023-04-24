@@ -27,25 +27,28 @@ type kafka struct {
 
 type Config struct {
 	Db struct {
-		Name     string `yaml:"name"`
-		Password string `yaml:"password"`
-		Ip       string `yaml:"ip"`
-		Port     string `yaml:"port"`
-		Database string `yaml:"database"`
-	}
-	Pri struct {
-		Value string `yaml:"value"`
-	}
-	Server struct {
-		Port string `yaml:"port"`
-	}
-	Access struct {
-		Pub string `yaml:"pub"`
+		Name          string `yaml:"name"`
+		Password      string `yaml:"password"`
+		Ip            string `yaml:"ip"`
+		Port          string `yaml:"port"`
+		BTC_Database  string `yaml:"btc_database"`
+		ETH_Database  string `yaml:"eth_database"`
+		BSC_Database  string `yaml:"bsc_database"`
+		HUI_Database  string `yaml:"hui_database"`
+		TRON_Database string `yaml:"tron_database"`
 	}
 	Log struct {
 		Stdout stdout `mapstructure:"stdout"`
 		File   file   `mapstructure:"file"`
 		Kafka  kafka  `mapstructure:"kafka"`
+	}
+	MonitorTime struct {
+		BTC              int8   `mapstructure:"btc"`
+		BSC              int8   `mapstructure:"bsc"`
+		ETH              int8   `mapstructure:"eth"`
+		HUI              int8   `mapstructure:"hui"`
+		TRON             int8   `mapstructure:"tron"`
+		QueryIntervalInt uint64 `mapstructure:"query_interval"`
 	}
 }
 
