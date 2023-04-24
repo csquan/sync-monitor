@@ -36,7 +36,7 @@ func (a *HUIMonitorService) Run() (err error) {
 		if height == afterHeight {
 			logrus.Error("hui 高度在配置的期限内没有变化")
 		} else {
-			logrus.Info("hui 高度在配置的期限内正常变化")
+			//logrus.Info("hui 高度在配置的期限内正常变化")
 		}
 	}
 	return

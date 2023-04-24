@@ -37,7 +37,7 @@ func (a *BSCMonitorService) Run() (err error) {
 		if height == afterHeight {
 			logrus.Error("bsc 高度在配置的期限内没有变化")
 		} else {
-			logrus.Info("bsc 高度在配置的期限内正常变化")
+			//logrus.Info("bsc 高度在配置的期限内正常变化")
 		}
 	}
 	return

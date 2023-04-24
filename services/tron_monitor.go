@@ -36,7 +36,7 @@ func (a *TRONMonitorService) Run() (err error) {
 		if height == afterHeight {
 			logrus.Error("tron 高度在配置的期限内没有变化")
 		} else {
-			logrus.Info("tron 高度在配置的期限内正常变化")
+			//logrus.Info("tron 高度在配置的期限内正常变化")
 		}
 	}
 
