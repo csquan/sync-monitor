@@ -5,13 +5,13 @@ db:
   port: 3306
   btc_database: btc_block_test
   eth_database: block_eth_test
-  bsc_database: block_bsc_test
+  bsc_database: block_data_test
   hui_database: block_data_test
   tron_database: TronBlock
 
 MonitorTime:
   BTC: 1200
-  BSC: 6
+  BSC: 4
   ETH: 20
   HUI: 6
   TRON: 5

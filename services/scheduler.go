@@ -1,13 +1,10 @@
 package services
 
 import (
-	"os"
-	"sync"
-	"time"
-
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
-	"github.com/sirupsen/logrus"
+	"os"
+	"time"
 )
 
 type ServiceScheduler struct {
@@ -51,13 +48,19 @@ func (t *ServiceScheduler) Start() {
 	huiMonitorService := NewHUIMonitorService(t.hui_db, t.conf)
 	tronMonitorService := NewTRONMonitorService(t.tron_db, t.conf)
 
-	t.services = []types.IAsyncService{
-		btcMonitorService,
-		bscMonitorService,
-		ethMonitorService,
-		huiMonitorService,
-		tronMonitorService,
-	}
+	//t.services = []types.IAsyncService{
+	//	btcMonitorService,
+	//	bscMonitorService,
+	//	//ethMonitorService,
+	//	//huiMonitorService,
+	//	//tronMonitorService,
+	//}
+
+	go btcMonitorService.Run()
+	go bscMonitorService.Run()
+	go ethMonitorService.Run()
+	go huiMonitorService.Run()
+	go tronMonitorService.Run()
 
 	timer := time.NewTimer(2)
 	for {
@@ -65,30 +68,6 @@ func (t *ServiceScheduler) Start() {
 		case <-t.closeCh:
 			return
 		case <-timer.C:
-
-			wg := sync.WaitGroup{}
-
-			for _, s := range t.services {
-				wg.Add(1)
-				go func(asyncService types.IAsyncService) {
-					defer wg.Done()
-					defer func(start time.Time) {
-						//logrus.Infof("%v task process cost %v", asyncService.Name(), time.Since(start))
-					}(time.Now())
-
-					err := asyncService.Run()
-					if err != nil {
-						logrus.Errorf("run s [%v] failed. err:%v", asyncService.Name(), err)
-					}
-				}(s)
-			}
-
-			wg.Wait()
-
-			if !timer.Stop() && len(timer.C) > 0 {
-				<-timer.C
-			}
-			timer.Reset(time.Duration(t.conf.MonitorTime.QueryIntervalInt) * time.Millisecond)
 		}
 	}
 }

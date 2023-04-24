@@ -33,7 +33,7 @@ func main() {
 
 	flag.Parse()
 
-	err = log.Init("api-in", &config.Conf)
+	err = log.Init("sync-monitor", &config.Conf)
 	if err != nil {
 		log.Fatal(err)
 	}

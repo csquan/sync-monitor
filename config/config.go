@@ -43,11 +43,11 @@ type Config struct {
 		Kafka  kafka  `mapstructure:"kafka"`
 	}
 	MonitorTime struct {
-		BTC              int8   `mapstructure:"btc"`
-		BSC              int8   `mapstructure:"bsc"`
-		ETH              int8   `mapstructure:"eth"`
-		HUI              int8   `mapstructure:"hui"`
-		TRON             int8   `mapstructure:"tron"`
+		BTC              int    `mapstructure:"btc"`
+		BSC              int64  `mapstructure:"bsc"`
+		ETH              int64  `mapstructure:"eth"`
+		HUI              int64  `mapstructure:"hui"`
+		TRON             int64  `mapstructure:"tron"`
 		QueryIntervalInt uint64 `mapstructure:"query_interval"`
 	}
 }

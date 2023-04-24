@@ -4,6 +4,7 @@ import (
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
 	"github.com/sirupsen/logrus"
+	"time"
 )
 
 type BSCMonitorService struct {
@@ -20,13 +21,25 @@ func NewBSCMonitorService(db types.IDB, cfg *config.Config) *BSCMonitorService {
 
 // 读取不同的数据库，在一定时间内是否连续，否则报警
 func (a *BSCMonitorService) Run() (err error) {
-	logrus.Info("sync-monitor run at ")
+	logrus.Info("bsc monitor run ")
 
-	height, err := a.db.GetBTCHeight("BTC")
-	if err != nil {
-		logrus.Error(err)
+	for {
+		height, err := a.db.GetBSCHeight("erc20_tx")
+		if err != nil {
+			logrus.Error(err)
+		}
+		time.Sleep(time.Duration(a.config.MonitorTime.BSC) * time.Second)
+		//当前获取一个高度，sleep后再获取一个高度，看是否变化
+		afterHeight, err := a.db.GetBSCHeight("erc20_tx")
+		if err != nil {
+			logrus.Error(err)
+		}
+		if height == afterHeight {
+			logrus.Error("bsc 高度在配置的期限内没有变化")
+		} else {
+			logrus.Info("bsc 高度在配置的期限内正常变化")
+		}
 	}
-	logrus.Info(height)
 	return
 }
 
