@@ -3,6 +3,7 @@ package services
 import (
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
+	"github.com/ethereum/sync-monitor/util"
 	"github.com/sirupsen/logrus"
 	"time"
 )
@@ -26,9 +27,16 @@ func (a *BTCMonitorService) Run() (err error) {
 		if err != nil {
 			logrus.Error(err)
 		}
-		logrus.Info(height)
 		time.Sleep(time.Duration(a.config.MonitorTime.BTC) * time.Second)
-		logrus.Info("BTC 经过sleep")
+		afterHeight, err := a.db.GetBTCHeight("BTC")
+		if err != nil {
+			logrus.Error(err)
+		}
+		if height == afterHeight {
+			util.TgAlert("btc 高度在配置的期限内没有变化")
+		} else {
+			//logrus.Info("btc 高度在配置的期限内正常变化")
+		}
 	}
 	return
 }
