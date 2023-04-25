@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
 	"github.com/ethereum/sync-monitor/util"
@@ -33,7 +34,8 @@ func (a *BTCMonitorService) Run() (err error) {
 			logrus.Error(err)
 		}
 		if height == afterHeight {
-			util.TgAlert("btc 高度在配置的期限内没有变化")
+			str := fmt.Sprintf("btc 高度在配置的期限内没有变化,均为%d", afterHeight)
+			util.TgAlert(str)
 		} else {
 			//logrus.Info("btc 高度在配置的期限内正常变化")
 		}

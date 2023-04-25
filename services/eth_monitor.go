@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
 	"github.com/ethereum/sync-monitor/util"
@@ -34,7 +35,8 @@ func (a *ETHMonitorService) Run() (err error) {
 			logrus.Error(err)
 		}
 		if height == afterHeight {
-			util.TgAlert("eth 高度在配置的期限内没有变化")
+			str := fmt.Sprintf("eth 高度在配置的期限内没有变化,均为%d", afterHeight)
+			util.TgAlert(str)
 		} else {
 			//logrus.Info("eth 高度在配置的期限内正常变化")
 		}

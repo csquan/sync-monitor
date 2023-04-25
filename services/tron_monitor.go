@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"github.com/ethereum/sync-monitor/config"
 	"github.com/ethereum/sync-monitor/types"
 	"github.com/ethereum/sync-monitor/util"
@@ -25,17 +26,18 @@ func (a *TRONMonitorService) Run() (err error) {
 	logrus.Info("sync-monitor run at ")
 
 	for {
-		height, err := a.db.GetTRONHeight("BTC")
+		height, err := a.db.GetTRONHeight("TRC")
 		if err != nil {
 			logrus.Error(err)
 		}
 		time.Sleep(time.Duration(a.config.MonitorTime.TRON) * time.Second)
-		afterHeight, err := a.db.GetTRONHeight("BTC")
+		afterHeight, err := a.db.GetTRONHeight("TRC")
 		if err != nil {
 			logrus.Error(err)
 		}
 		if height == afterHeight {
-			util.TgAlert("tron 高度在配置的期限内没有变化")
+			str := fmt.Sprintf("tron 高度在配置的期限内没有变化,均为%d", afterHeight)
+			util.TgAlert(str)
 		} else {
 			//logrus.Info("tron 高度在配置的期限内正常变化")
 		}
